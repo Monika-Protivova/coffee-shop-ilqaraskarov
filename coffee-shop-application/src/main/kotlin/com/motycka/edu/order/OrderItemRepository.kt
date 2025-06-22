@@ -1,6 +1,6 @@
 package com.motycka.edu.order
 
 interface OrderItemRepository {
-    fun selectByOrderId(orderId: OrderId): List<OrderItemDTO>
-    fun createOrderItems(orderItems: List<OrderItemDTO>)
+    suspend fun selectByOrderId(orderId: OrderId): List<OrderItemDTO>
+    suspend fun createOrderItems(orderItems: List<OrderItemDTO>)
 }
