@@ -2,8 +2,8 @@ package com.motycka.edu.order
 
 import com.motycka.edu.customer.CustomerRepository
 import com.motycka.edu.menu.MenuItemDTO
+import com.motycka.edu.menu.MenuItemResponse
 import com.motycka.edu.menu.MenuRepository
-import com.motycka.edu.security.getUserIdentity
 
 class OrderService(
     private val orderRepository: OrderRepository,
@@ -16,7 +16,7 @@ class OrderService(
         val customer = customerRepository.selectCustomer(userId)
             ?: throw IllegalArgumentException("Customer not found")
 
-        val menuItems = menuRepository.selectMenuItems(
+        val menuItems = menuRepository.selectMenuItems(filter = null,
             ids = request.items.map { it.menuItemId }.toSet()
         )
 
@@ -70,7 +70,7 @@ class OrderService(
 
         val orderItems = orderItemRepository.selectByOrderId(orderId)
 
-        val menuItems = menuRepository.selectMenuItems(
+        val menuItems = menuRepository.selectMenuItems(filter = null,
             ids = orderItems.map { it.menuItemId }.toSet()
         )
 
@@ -101,4 +101,12 @@ class OrderService(
         val updated = orderRepository.update(existing.copy(status = updateRequest.status))
         return getOrderById(updated.id!!)
     }
+}
+private fun MenuItemDTO.toResponse(): MenuItemResponse {
+    return MenuItemResponse(
+        id = this.id,
+        name = this.name,
+        description = this.description,
+        price = this.price
+    )
 }
