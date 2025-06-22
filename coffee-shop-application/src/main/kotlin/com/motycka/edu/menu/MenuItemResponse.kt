@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MenuItemResponse(
-    val id: MenuItemId,
+    val id: MenuItemId?,
     val name: String,
     val description: String,
     val price: Double
